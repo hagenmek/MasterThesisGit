@@ -15,7 +15,7 @@ VAR
 	rtb_Sum: LREAL;
 	y: LREAL;
 	temp1: LREAL;
-
+	lmin_to_m3s : LREAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -33,6 +33,8 @@ ELSE
     y := rtb_Sum;
 END_IF;
 
+lmin_to_m3s := 1.0/60000.0;
+
 (* End of Signum: '<S1>/Sign' *)
 
 (* Outport: '<Root>/OrificeFlow' incorporates:
@@ -40,13 +42,16 @@ END_IF;
  *  Product: '<S1>/Product2'
  *  Sqrt: '<S1>/Sqrt1' *)
 temp1 := ABS(rtb_Sum);
-OrificeFlow := (((param.Kv * ValveOpening) * y) * SQRT(temp1)) * (1/60000);
+OrificeFlow := param.Kv * ValveOpening * y * SQRT(temp1) * lmin_to_m3s;
 (* End of Outputs for SubSystem: '<Root>/OrificeEquation' *)
 
 ]]></ST>
     </Implementation>
     <LineIds Name="OrificeEquation">
-      <LineId Id="3" Count="14" />
+      <LineId Id="3" Count="12" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="16" Count="1" />
       <LineId Id="19" Count="8" />
       <LineId Id="2" Count="0" />
     </LineIds>

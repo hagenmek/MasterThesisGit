@@ -3,23 +3,24 @@
   <DUT Name="ST_pValveControlledCylinder" Id="{78f846a6-6b02-4cbc-8d8a-455fc5dcc97d}">
     <Declaration><![CDATA[TYPE ST_pValveControlledCylinder :
 STRUCT
-	Kv : LREAL := 32 / SQRT(22); 		//[L/min / sqrt(bar)]
-	DBore : LREAL := 0.220;				//[m]
-	DRod : LREAL := 0.060;				//[m]
+	gravity : LREAL := 9.81;
+	Kv : LREAL := 10 / SQRT(7); 		//[L/min / sqrt(bar)]
+	DBore : LREAL := 120E-3;				//[m]
+	DRod : LREAL := 80E-3;				//[m]
 	xMax : LREAL := 1;				//[m]
 	x0 : LREAL := 0.5;				//[m]
 	pi : LREAL := 3.14159265359;		//Value of pi
-    VA0 : LREAL := 0.002;				//[m^3]
-	VB0 : LREAL := 0.002;				//[m^3]
+    VA0 : LREAL := 0.1E-3;				//[m^3]
+	VB0 : LREAL := 0.1E-3;					//[m^3]
 	pMax : LREAL := 200E5; 				//[Pa]
-	EffectiveMass : LREAL := 1500;			//[kg]
-	ExternalForce : LREAL := 5000;	//[N]
-	FrictionConstant : LREAL := 1000;		//[N/(m/s)]
-	pA0 : LREAL := 50E5;
+	EffectiveMass : LREAL := 2500;			//[kg]
+	ExternalForce : LREAL := EffectiveMass*gravity;	//[N]
+	FrictionConstant : LREAL := 10000;		//[N/(m/s)]
+	pA0 : LREAL := 70E5;
 	pB0 : LREAL := 1E5;
 	pAmax : LREAL :=200E5;
 	pBmax : LREAL :=200E5;
-	vMax : LREAL := 1; 
+	vMax : LREAL := 9999999; 
 	v0 : LREAL := 0; 
 END_STRUCT
 END_TYPE

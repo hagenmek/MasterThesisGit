@@ -20,8 +20,14 @@ fbPressureGradient_pB : PressureGradient;
 PressurepB : LREAL;
 
 //OrificeEquation QA and QB
-fbOrificeEquationQA : OrificeEquation;
-fbOrificeEquationQB : OrificeEquation;	
+fbOrificeEquationQ_P_A : OrificeEquation;
+fbOrificeEquationQ_B_R : OrificeEquation;
+fbOrificeEquationQ_P_B : OrificeEquation;
+fbOrificeEquationQ_A_R : OrificeEquation;	
+FlowQ_P_A : LREAL;
+FlowQ_B_R : LREAL;	
+FlowQ_P_B : LREAL;
+FlowQ_A_R : LREAL;
 FlowQA : LREAL;
 FlowQB : LREAL;
 
@@ -41,7 +47,7 @@ fbPressureGradient_pA(
 	TotalVolume := par.VA0 + (fbHydraulicCylinder.PistonPosition * fbHydraulicCylinder.Aa),
 	BulkModulus := fbBulkModulus.BulkModulus,
 	FlowrateIn := FlowQA,
-	FlowrateOut := (fbHydraulicCylinder.PistonVelocity * fbHydraulicCylinder.Aa*0),
+	FlowrateOut := (fbHydraulicCylinder.PistonVelocity * fbHydraulicCylinder.Aa),
 	p0 := par.pA0,
 	param := par,
 	Pressure => PressurepA		//Pressure
@@ -58,23 +64,51 @@ fbPressureGradient_pB(
 	Pressure => PressurepB		//Pressure
 	);
 
-//OrificeEquationA (Q_A)
-fbOrificeEquationQA(
+fbOrificeEquationQ_P_A(
 	PressureOut := PressurepA, 			//Found value from old simulink project, this one goes to the tank i guess
 	PressureIn := SupplyPressure,	
 	ValveOpening := ValveOpeningControl,	
 	param := par,
-	OrificeFlow => FlowQA
+	OrificeFlow => FlowQ_P_A
 	);
 	
-//OrificeEquationB (Q_B)
-fbOrificeEquationQB(
+fbOrificeEquationQ_A_R(
+	PressureOut := ReturnPressure, 			//Found value from old simulink project, this one goes to the tank i guess
+	PressureIn :=  PressurepA,	
+	ValveOpening := ValveOpeningControl,	
+	param := par,
+	OrificeFlow => FlowQ_A_R
+	);
+
+
+	
+fbOrificeEquationQ_B_R(
 	PressureOut := ReturnPressure, 			//Found value from old simulink project, this one goes to the tank i guess
 	PressureIn := PressurepB,			
 	ValveOpening := ValveOpeningControl,
 	param := par,
-	OrificeFlow => FlowQB
+	OrificeFlow => FlowQ_B_R
 	);
+	
+fbOrificeEquationQ_P_B(
+	PressureOut := PressurepB, 			//Found value from old simulink project, this one goes to the tank i guess
+	PressureIn := SupplyPressure,			
+	ValveOpening := ValveOpeningControl,
+	param := par,
+	OrificeFlow => FlowQ_P_B
+	);	
+
+IF ValveOpeningControl > 0 THEN
+	FlowQA := FlowQ_P_A;		
+	FlowQB := FlowQ_B_R;
+ELSIF ValveOpeningControl < 0 THEN
+	FlowQA := FlowQ_A_R;		
+	FlowQB := FlowQ_P_B;
+ELSE
+	FlowQA := 0.0;		
+	FlowQB := 0.0;	
+END_IF
+
 	
 //Hydraulic Cylinder 1
 fbHydraulicCylinder(
@@ -95,14 +129,33 @@ fbHydraulicCylinder(
       <LineId Id="139" Count="0" />
       <LineId Id="135" Count="0" />
       <LineId Id="38" Count="1" />
-      <LineId Id="41" Count="3" />
+      <LineId Id="42" Count="2" />
       <LineId Id="46" Count="0" />
       <LineId Id="48" Count="0" />
       <LineId Id="136" Count="0" />
-      <LineId Id="49" Count="6" />
+      <LineId Id="49" Count="1" />
+      <LineId Id="177" Count="0" />
+      <LineId Id="179" Count="6" />
+      <LineId Id="188" Count="0" />
+      <LineId Id="178" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="53" Count="2" />
       <LineId Id="58" Count="0" />
       <LineId Id="137" Count="0" />
-      <LineId Id="59" Count="4" />
+      <LineId Id="59" Count="1" />
+      <LineId Id="189" Count="0" />
+      <LineId Id="191" Count="5" />
+      <LineId Id="190" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="199" Count="0" />
+      <LineId Id="197" Count="1" />
+      <LineId Id="202" Count="1" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="208" Count="0" />
+      <LineId Id="206" Count="1" />
+      <LineId Id="205" Count="0" />
+      <LineId Id="61" Count="2" />
       <LineId Id="69" Count="2" />
       <LineId Id="121" Count="0" />
       <LineId Id="9" Count="0" />
