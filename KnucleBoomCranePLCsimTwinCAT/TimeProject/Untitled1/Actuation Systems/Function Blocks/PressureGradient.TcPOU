@@ -29,16 +29,17 @@ END_VAR
  *  Sum: '<S1>/Sum' *)
  
 //PressureGradient in [Pascal/s]
-PressureGradient := ((FlowrateIn - FlowrateOut)) * (BulkModulus / TotalVolume);
+PressureGradient := (FlowrateIn - FlowrateOut) * (BulkModulus / TotalVolume);
 (* End of Outputs for SubSystem: '<Root>/PressureGradient' *)
 
 
 //Pressure in [Pascal]
 fbPressurePascal(
 	ssMethodType := ssMethodType,
+	tCycle := param.tCycle,
 	In := PressureGradient,
 	Init := p0,
-	minOut := 0,
+	minOut := G_ActuationSystems.ReturnPressure,
 	maxOut := param.pAmax,
 	Out => Pressure
 	);
@@ -54,7 +55,9 @@ fbPressurePascal(
       <LineId Id="10" Count="1" />
       <LineId Id="27" Count="0" />
       <LineId Id="78" Count="0" />
-      <LineId Id="67" Count="3" />
+      <LineId Id="67" Count="2" />
+      <LineId Id="153" Count="0" />
+      <LineId Id="70" Count="0" />
       <LineId Id="132" Count="2" />
       <LineId Id="71" Count="0" />
       <LineId Id="60" Count="0" />

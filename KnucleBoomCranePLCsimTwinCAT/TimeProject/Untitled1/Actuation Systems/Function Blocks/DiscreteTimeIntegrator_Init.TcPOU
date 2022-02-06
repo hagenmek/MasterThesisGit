@@ -8,6 +8,7 @@ VAR_INPUT
 	Init: LREAL;
 	minOut : LREAL;
 	maxOut : LREAL;
+	tCycle : LREAL;
 END_VAR
 VAR_OUTPUT
 	Out: LREAL;
@@ -53,7 +54,7 @@ CASE ssMethodType OF
         Out := c_DiscreteTimeIntegrator_DS;
         (* Update for DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
         c_DiscreteTimeIntegrator_IC := 0;
-        c_DiscreteTimeIntegrator_DS := (0.001 * In) + c_DiscreteTimeIntegrator_DS;
+        c_DiscreteTimeIntegrator_DS := (tCycle * In) + c_DiscreteTimeIntegrator_DS;
 
         IF c_DiscreteTimeIntegrator_DS >= maxOut THEN 
             c_DiscreteTimeIntegrator_DS := maxOut;
